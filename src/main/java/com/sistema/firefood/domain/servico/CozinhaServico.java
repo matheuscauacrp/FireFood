@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.sistema.firefood.domain.exceptions.EntidadeEmUsoException;
 import com.sistema.firefood.domain.exceptions.EntidadeInvalidaException;
@@ -12,6 +13,8 @@ import com.sistema.firefood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.sistema.firefood.domain.modelos.Cozinha;
 import com.sistema.firefood.domain.repositorios.CozinhaRepositorio;
 
+
+@Service
 public class CozinhaServico {
 
 	@Autowired
