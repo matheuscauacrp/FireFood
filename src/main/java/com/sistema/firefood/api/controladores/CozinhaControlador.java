@@ -43,9 +43,14 @@ public class CozinhaControlador {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable("id") Long id) {
+	public ResponseEntity<?> buscar(@PathVariable("id") Long id) {
+		try {
 		return ResponseEntity
-				.status(HttpStatus.OK).body(cozinhaServico.salvar(null));
+				.status(HttpStatus.OK).body(cozinhaServico.listar());
+		}catch (EntidadeInvalidaException e) {
+			return ResponseEntity
+					.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+		}
 	}
 	
 }
