@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sistema.firefood.domain.exceptions.EntidadeInvalidaException;
 import com.sistema.firefood.domain.exceptions.EntidadeNaoEncontradaException;
+import com.sistema.firefood.domain.modelos.Restaurante;
 import com.sistema.firefood.domain.servico.RestauranteServico;
 
 @RestController
@@ -18,6 +21,17 @@ public class RestauranteControlador {
 	@Autowired
 	private RestauranteServico restauranteServico;
 
+	@PostMapping("/salvar")
+	public ResponseEntity<?> salvar(@RequestBody Restaurante restaurante){
+		try {
+			restauranteServico.salvar(restaurante);
+			return ResponseEntity.status(200).build();
+		}catch (EntidadeInvalidaException e) {
+			return ResponseEntity.status(422).body(e.getMessage());
+		}
+	}
+	
+	
 	@GetMapping
 	public ResponseEntity<?> listar() {
 		try {
