@@ -1,5 +1,8 @@
 package com.sistema.firefood.api.controladores;
 
-public class RestauranteControlador {
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+public class RestauranteControlador {
+	
 }
