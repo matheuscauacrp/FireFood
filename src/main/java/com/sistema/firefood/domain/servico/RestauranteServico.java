@@ -3,23 +3,36 @@ package com.sistema.firefood.domain.servico;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.sistema.firefood.domain.exceptions.EntidadeInvalidaException;
+import com.sistema.firefood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.sistema.firefood.domain.modelos.Restaurante;
 import com.sistema.firefood.domain.repositorios.RestauranteRepositorio;
 
 @Service
 public class RestauranteServico {
-	
+
 	@Autowired
 	private RestauranteRepositorio restauranteRepositorio;
-	
-	public List<Restaurante> listar(){
-		return restauranteRepositorio.findAll();
+
+	public List<Restaurante> listar() {
+		try {
+			return restauranteRepositorio.findAll();
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Lista vazia!");
+		}
 	}
-	
+
 	public Restaurante buscar(Long id) {
-		return restauranteRepositorio.getById(id);
+		try {
+			return restauranteRepositorio.findById(id).orElseThrow();
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Nada consta com esse id");
+		}catch (EntidadeInvalidaException e) {
+			throw new EntidadeNaoEncontradaException("ID Inválido!");
+		}
 	}
-	
+
 }
