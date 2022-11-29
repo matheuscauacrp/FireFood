@@ -3,6 +3,7 @@ package com.sistema.firefood.domain.servico;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,16 @@ public class RestauranteServico {
 	@Autowired
 	private RestauranteRepositorio restauranteRepositorio;
 
+	
+	public Restaurante salvar(Restaurante restaurante) {
+		try {
+			return restauranteRepositorio.save(restaurante);
+		}catch (DataIntegrityViolationException e) {
+			throw new EntidadeInvalidaException("Entidade inválida!");
+		}
+	}
+	
+	
 	public List<Restaurante> listar() {
 		try {
 			return restauranteRepositorio.findAll();
@@ -30,8 +41,8 @@ public class RestauranteServico {
 			return restauranteRepositorio.findById(id).orElseThrow();
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException("Nada consta com esse id");
-		}catch (EntidadeInvalidaException e) {
-			throw new EntidadeNaoEncontradaException("ID Inválido!");
+		}catch (DataIntegrityViolationException e) {
+			throw new EntidadeInvalidaException("ID Inválido!");
 		}
 	}
 
