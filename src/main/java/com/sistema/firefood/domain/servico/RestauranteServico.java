@@ -18,4 +18,8 @@ public class RestauranteServico {
 		return restauranteRepositorio.findAll();
 	}
 	
+	public Restaurante buscar(Long id) {
+		return restauranteRepositorio.getById(id);
+	}
+	
 }
