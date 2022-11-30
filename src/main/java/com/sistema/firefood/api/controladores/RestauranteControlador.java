@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,16 @@ public class RestauranteControlador {
 			return ResponseEntity.status(204).body(e.getMessage());
 		} catch (EntidadeInvalidaException e) {
 			return ResponseEntity.status(400).body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/atualizar")
+	public ResponseEntity<?> atualizar(@RequestBody Restaurante restaurante){
+		try {
+			restauranteServico.atualizar(restaurante);
+			return ResponseEntity.status(200).build();
+		}catch (EntidadeInvalidaException e) {
+			return ResponseEntity.unprocessableEntity().body(e.getMessage());
 		}
 	}
 }

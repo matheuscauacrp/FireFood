@@ -45,5 +45,15 @@ public class RestauranteServico {
 			throw new EntidadeInvalidaException("ID Inválido!");
 		}
 	}
+	
+
+	public Restaurante atualizar(Restaurante restaurante) {
+		try {
+			return restauranteRepositorio.save(restaurante);
+		}catch (DataIntegrityViolationException e) {
+			throw new EntidadeInvalidaException("Entidade inválida!");
+		}
+	}
+	
 
 }
