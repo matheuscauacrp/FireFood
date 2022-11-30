@@ -51,12 +51,12 @@ public class RestauranteServico {
 	public Restaurante atualizar(Long id, Restaurante restaurante) {
 		try {
 			Restaurante restauranteAtual = buscar(id);
-			if(restauranteAtual != null) {
-				BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
-				
-				return salvar(restauranteAtual);
+			if(restauranteAtual == null) {
+				throw new EntidadeNaoEncontradaException("Não foi encontrado Restaurante com esse id!");
 			}
-			throw new EntidadeNaoEncontradaException("Não foi encontrado Restaurante com esse id!");
+			BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+			return salvar(restauranteAtual);
+			
 		}catch (DataIntegrityViolationException e) {
 			throw new EntidadeInvalidaException("Entidade inválida!");
 		}
