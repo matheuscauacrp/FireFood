@@ -2,6 +2,7 @@ package com.sistema.firefood.domain.servico;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -47,9 +48,15 @@ public class RestauranteServico {
 	}
 	
 
-	public Restaurante atualizar(Restaurante restaurante) {
+	public Restaurante atualizar(Long id, Restaurante restaurante) {
 		try {
-			return restauranteRepositorio.save(restaurante);
+			Restaurante restauranteAtual = buscar(id);
+			if(restauranteAtual != null) {
+				BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+				
+				return salvar(restauranteAtual);
+			}
+			throw new EntidadeNaoEncontradaException("Não foi encontrado Restaurante com esse id!");
 		}catch (DataIntegrityViolationException e) {
 			throw new EntidadeInvalidaException("Entidade inválida!");
 		}
